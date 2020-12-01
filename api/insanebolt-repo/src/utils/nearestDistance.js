@@ -1,9 +1,6 @@
-const express = require("express");
 const fetch = require("node-fetch");
 const helpers = require("@turf/helpers");
 const turf = require("@turf/turf");
-
-const router = express.Router();
 
 const convertTime = (oldDateTime) => {
   return oldDateTime.replace(
@@ -23,9 +20,7 @@ const getNearestDistance = (pointsArr, lat, lng) => {
   return dist;
 };
 
-router.post("/distance", async (req, res) => {
-  const { lat, lng } = req.body;
-
+module.exports = (lat, lng) => {
   let options = {
     timeZone: "Asia/Singapore",
     year: "numeric",
@@ -48,8 +43,10 @@ router.post("/distance", async (req, res) => {
   //get all points from nea
 
   let raw = JSON.stringify({
-    startDate,
-    endDate,
+    startDate: "2020-11-01 00:00",
+    endDate: "2020-11-01 00:10",
+    // startDate,
+    // endDate,
     searchType: "dateTime",
   });
 
@@ -62,7 +59,7 @@ router.post("/distance", async (req, res) => {
     redirect: "follow",
   };
 
-  fetch(
+  return fetch(
     "http://www.weather.gov.sg/lightning/HourlyDailyLightningStrikesServlet/",
     requestOptions
   )
@@ -77,14 +74,14 @@ router.post("/distance", async (req, res) => {
           });
       //find distance from nearest point
       if (pointsArr.length === 0) {
-        res.send({ distance: -1 });
+        return -1;
       } else {
         const distance = getNearestDistance(pointsArr, lat, lng);
-        console.log(distance);
-        res.send({ distance });
+        return Math.round(distance);
       }
     })
-    .catch((error) => console.log(error));
-});
-
-module.exports = router;
+    .catch((error) => {
+      console.log(error);
+      return -1;
+    });
+};

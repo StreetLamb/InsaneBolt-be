@@ -7,8 +7,8 @@ exports.up = (pgm) => {
     CREATE TABLE scores (
         id SERIAL PRIMARY KEY,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        username VARCHAR(30) NOT NULL,
-        distance REAL
+        username VARCHAR(30) NOT NULL CHECK(COALESCE(TRIM(username), '') != ''),
+        distance REAL NOT NULL
     );
     `);
 };
