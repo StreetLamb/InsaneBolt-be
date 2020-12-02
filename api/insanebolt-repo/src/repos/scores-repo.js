@@ -2,9 +2,12 @@ const pool = require("../pool");
 const camelCase = require("../utils/camelCase");
 
 class ScoresRepo {
-  static async find() {
-    const { rows } = await pool.query(
-      "SELECT * FROM scores ORDER BY distance ASC LIMIT 10;"
+  static async find(limit = 10) {
+    const {
+      rows,
+    } = await pool.query(
+      "SELECT * FROM scores ORDER BY distance ASC LIMIT $1;",
+      [limit]
     );
 
     return camelCase(rows);

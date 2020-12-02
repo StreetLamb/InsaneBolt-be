@@ -20,7 +20,7 @@ const getNearestDistance = (pointsArr, lat, lng) => {
   return dist;
 };
 
-module.exports = (lat, lng) => {
+module.exports = (lat, lng, period = 10) => {
   let options = {
     timeZone: "Asia/Singapore",
     year: "numeric",
@@ -34,7 +34,7 @@ module.exports = (lat, lng) => {
   let endDate = formatter.format(new Date());
   let startDate = new Date();
   startDate = formatter.format(
-    startDate.setMinutes(startDate.getMinutes() - 5)
+    startDate.setMinutes(startDate.getMinutes() - period)
   );
 
   endDate = convertTime(endDate);
@@ -43,10 +43,10 @@ module.exports = (lat, lng) => {
   //get all points from nea
 
   let raw = JSON.stringify({
-    startDate: "2020-11-01 00:00",
-    endDate: "2020-11-01 00:10",
-    // startDate,
-    // endDate,
+    // startDate: "2020-11-01 00:00",
+    // endDate: "2020-11-01 00:10",
+    startDate,
+    endDate,
     searchType: "dateTime",
   });
 

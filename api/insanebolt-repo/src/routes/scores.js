@@ -4,8 +4,9 @@ const nearestDistance = require("../utils/nearestDistance");
 
 const router = express.Router();
 
-router.get("/scores", async (req, res) => {
-  const scores = await scoresRepo.find();
+router.get("/scores/:limit?", async (req, res) => {
+  const { limit } = req.params;
+  const scores = await scoresRepo.find(limit);
   res.send(scores);
 });
 
@@ -16,8 +17,8 @@ router.post("/scores", async (req, res) => {
 });
 
 router.post("/judgescore", async (req, res) => {
-  const { lat, lng } = req.body;
-  nearestDistance(lat, lng).then(async (distance) => {
+  const { lat, lng, period } = req.body;
+  nearestDistance(lat, lng, period).then(async (distance) => {
     if (distance === -1) {
       res.send({ distance, position: -1 });
     } else {
