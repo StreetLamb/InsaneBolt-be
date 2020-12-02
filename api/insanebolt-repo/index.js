@@ -3,11 +3,8 @@ const pool = require("./src/pool");
 
 pool
   .connect({
-    host: "localhost",
-    port: 5432,
-    database: "insanebolt",
-    user: "jerronlim",
-    password: "mole",
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
   })
   .then(() => {
     app().listen(3007, () => {
