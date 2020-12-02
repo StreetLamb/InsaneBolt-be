@@ -4,7 +4,9 @@ const pool = require("./src/pool");
 pool
   .connect({
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   })
   .then(() => {
     app().listen(3007, () => {
