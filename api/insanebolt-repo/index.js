@@ -9,8 +9,8 @@ pool
     },
   })
   .then(() => {
-    app().listen(3007, () => {
-      console.log("Listening on port 3007");
+    app().listen(process.env.PORT || 3007, () => {
+      console.log(`Listening on port ${process.env.PORT || 3007}`);
     });
   })
   .catch((err) => {
