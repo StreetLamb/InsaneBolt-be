@@ -52,9 +52,9 @@ module.exports = (lat, lng, period = 10) => {
 
   let requestOptions = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
     body: raw,
     redirect: "follow",
   };
